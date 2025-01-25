@@ -1,4 +1,11 @@
-export const addHistory = (config: HistoryConfig) => {
+import { Prisma } from "@prisma/client";
+import { HistoryKey, type HistoryConfig } from "./types";
+import { validateConfig } from "./validateConfig";
+import { defaultCreateFn, defaultUpdateFn } from "./writers";
+
+export const initHistoryExtension = <HK extends HistoryKey>(
+  config: HistoryConfig<HK>,
+) => {
   // validate config
   if (validateConfig(config)) {
     throw new Error("Config is invalid");
@@ -8,15 +15,10 @@ export const addHistory = (config: HistoryConfig) => {
     client.$extends({
       name: "addHistory",
       query: {
-        // productApplication: {
-        //   create: (args) => createFn({ client, ...args }),
-        //   update: (args) => updateFn({ client, ...args }),
-        // },
-        // bestFor: {
-        //   create: (args) => createFn({ client, ...args }),
-        //   update: (args) => updateFn({ client, ...args }),
-        // },
-        // etc for all models - we could generate this list from some config (or just define it here type-safely if only Stackfix is using this extension)
+        todo: {
+          create: (args) => defaultCreateFn({ client, ...args }),
+          update: (args) => defaultUpdateFn({ client, ...args }),
+        },
       },
     }),
   );

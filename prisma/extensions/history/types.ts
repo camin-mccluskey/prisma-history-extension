@@ -5,6 +5,7 @@ import {
   type DynamicQueryExtensionCbArgs,
   type InternalArgs,
 } from "@prisma/client/runtime/library";
+import { EnumLike } from "zod";
 
 // Prisma extension query function types
 type ExtensionPrismaClient = DynamicClientExtensionThis<
@@ -31,20 +32,15 @@ export type UpdateFnArgs<M extends Prisma.ModelName> =
   >;
 
 // Config types
-type ActiveFieldConfig = {
-  status: "active";
-  historyKey: string;
+type ModelHistoryConfig<M extends Prisma.ModelName, HK extends HistoryKey> = {
+  [F in keyof PrismaClient[Uncapitalize<M>]["fields"]]?: {
+    historyKey: HK;
+  };
 };
 
-type InactiveFieldConfig = {
-  status: "inactive";
-  historyKey: string;
-};
+// users must extend this type - could make this even more clear with e.g. "unique" prefix
+export type HistoryKey = `hk_${string}`;
 
-type ModelHistoryConfig<M extends Prisma.ModelName> = {
-  [F in keyof PrismaClient[Uncapitalize<M>]["fields"]]?: ActiveFieldConfig; // model fields in the current schema must be active if in history config
-} & Record<string, InactiveFieldConfig>; // other fields must be inactive but should be present to avoid key reuse across time
-
-export type HistoryConfig = {
-  readonly [M in Prisma.ModelName]?: ModelHistoryConfig<M>;
+export type HistoryConfig<HK extends HistoryKey> = {
+  readonly [M in Prisma.ModelName]?: ModelHistoryConfig<M, HK>;
 };
