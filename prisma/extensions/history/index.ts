@@ -1,11 +1,9 @@
 import { Prisma } from "@prisma/client";
-import { HistoryKey, type HistoryConfig } from "./types";
+import { type HistoryConfig } from "./types";
 import { validateConfig } from "./validateConfig";
 import { defaultCreateFn, defaultUpdateFn } from "./writers";
 
-export const initHistoryExtension = <HK extends HistoryKey>(
-  config: HistoryConfig<HK>,
-) => {
+export const initHistoryExtension = (config: HistoryConfig) => {
   // validate config
   if (validateConfig(config)) {
     throw new Error("Config is invalid");
