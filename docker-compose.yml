@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-storage
+    cap_add:
+      - SYS_NICE
+    environment:
+      - MYSQL_DATABASE=prisma-history
+      - MYSQL_ROOT_PASSWORD=password
+      - MSSQL_AGENT_ENABLED=true
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+volumes:
+  mysql-data:
