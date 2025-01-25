@@ -17,17 +17,17 @@ Ideal config:
    tracking: {
       user: {
         name: {
-            status: 'active',
+            // status: 'active', <- now think this is less useful
             historyKey: HistoryKey,
         },
       },
       task: {
         status: {
-          status: 'active',
+          // status: 'active',
             historyKey: HistoryKey,
         },
         name: {
-          status: 'inactive',
+          // status: 'inactive',
           historyKey: HistoryKey,
         },
       },
@@ -39,8 +39,7 @@ Ideal config:
  - mistake 1: I mess up the model or field name - the type system should catch this
  - mistake 2: I mess up a key name - the type system should catch this
  - mistake 3: I duplicate a key - the type system WONT catch this, but the config is prevalidated and the extension will not start
- - mistake 4: I duplicate a key that is no longer in use. See (3) HOWEVER this relies on us ensuring we don't reuse keys. That is what the status field is for
-    N.b: this makes me think we should use key values that have some semantic meaning. This would make detecting a duplicate key easier.
+ - mistake 4: I duplicate a key that is no longer in use. See (3) HOWEVER this relies on us ensuring we don't reuse keys ever (i.e. even when the schema changes). N.b: this makes me think we should use key values that have some semantic meaning. This would make detecting a duplicate key easier.
 
  What are the workflows:
  1. I want to bring a new field under history tacking
