@@ -7,22 +7,22 @@ import {
 } from "@prisma/client/runtime/library";
 
 // Prisma extension query function types
-type ExtensionPrismaClient = DynamicClientExtensionThis<
+export type ExtensionPrismaClient = DynamicClientExtensionThis<
   Prisma.TypeMap<InternalArgs & DefaultArgs, Prisma.PrismaClientOptions>,
   Prisma.TypeMapCb,
   DefaultArgs,
   object
 >;
 
-export type CreateFnArgs<M extends Prisma.ModelName> =
+export type PrismaCreateFnArgs<M extends Prisma.ModelName> =
   DynamicQueryExtensionCbArgs<
     Prisma.TypeMap<InternalArgs & DefaultArgs, Prisma.PrismaClientOptions>,
     "model",
     M,
     "create"
-  > & { client: ExtensionPrismaClient };
+  >;
 
-export type UpdateFnArgs<M extends Prisma.ModelName> =
+export type PrismaUpdateFnArgs<M extends Prisma.ModelName> =
   DynamicQueryExtensionCbArgs<
     Prisma.TypeMap<InternalArgs & DefaultArgs, Prisma.PrismaClientOptions>,
     "model",
@@ -30,8 +30,19 @@ export type UpdateFnArgs<M extends Prisma.ModelName> =
     "update"
   >;
 
+export type ExtensionCreateFnArgs<M extends Prisma.ModelName> =
+  PrismaCreateFnArgs<M> & {
+    client: ExtensionPrismaClient;
+    historyKey: HistoryKey;
+  };
+export type ExtensionUpdateFnArgs<M extends Prisma.ModelName> =
+  PrismaUpdateFnArgs<M> & {
+    client: ExtensionPrismaClient;
+    historyKey: HistoryKey;
+  };
+
 // Config types
-type ModelHistoryConfig<M extends Prisma.ModelName> = {
+export type ModelHistoryConfig<M extends Prisma.ModelName> = {
   [F in keyof PrismaClient[Uncapitalize<M>]["fields"]]?: {
     historyKey: HistoryKey;
   };
