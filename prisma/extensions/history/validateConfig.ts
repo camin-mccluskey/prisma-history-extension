@@ -6,6 +6,7 @@ export const validateConfig = (config: HistoryConfig): boolean => {
   // maybe there will be other validations we'd like to do later
 };
 
+// TODO: this should be checking for duplicated IntitialColumnLocation AND birthdate (startingTrackingDatetime)
 /** Checks all keys for duplicates (even legacy, inactive keys)
  * @param config The history config to validate
  * @returns true if there are no duplicate keys, false otherwise

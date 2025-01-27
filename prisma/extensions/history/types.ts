@@ -1,4 +1,8 @@
-import { type PrismaClient, type Prisma } from "@prisma/client";
+import {
+  type PrismaClient,
+  type Prisma,
+  type HistoryKey,
+} from "@prisma/client";
 import {
   type DynamicClientExtensionThis,
   type DefaultArgs,
@@ -49,7 +53,7 @@ export type ModelHistoryConfig<M extends Prisma.ModelName> = {
 };
 
 // users' keys must conform to this type - could make this even more clear with e.g. "unique" prefix
-export type HistoryKey = `hk_${string}`;
+// export type HistoryKey = `hk_${string}`;
 
 export type HistoryConfig = {
   readonly [M in Prisma.ModelName]?: ModelHistoryConfig<M>;

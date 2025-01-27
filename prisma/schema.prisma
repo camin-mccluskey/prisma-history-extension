@@ -41,3 +41,19 @@ enum TodoStatus {
   IN_PROGRESS
   DONE
 }
+
+model HistoryLog {
+  id       Int    @id @default(autoincrement())
+  newValue String
+  recordId String
+
+  priv_initialTargetLocation InitialColumnLocation
+  priv_historyKeyBirthDate   DateTime
+
+  @@index([initialTargetLocation, historyKeyBirthdDate], 'map:historyKey') // name this index something like history key
+}
+
+// append only
+enum InitialTargetLocation {
+  REVIEW_TITLE // initial column location 
+}
